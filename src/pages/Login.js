@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import users from '../credentials.json';
 import { useAuth } from '../AuthContext';
-
+import "../styles/Login.css"
 const Login = () => {
   const [username, setusername] = useState('');
   const [password, setPassword] = useState('');
@@ -23,24 +23,34 @@ const Login = () => {
   };
 
   return (
-    <div>
-      <h2>Login</h2>
-      {error && <p>{error}</p>}
-      <form onSubmit={handleSubmit}>
-        <input
-          type="username"
-          placeholder="username"
-          value={username}
-          onChange={(e) => setusername(e.target.value)}
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <button type="submit">Login</button>
-      </form>
+    <div className="container">
+      <div className="card">
+        <h2>Login</h2>
+        {error && <p className="error">{error}</p>}
+        <form onSubmit={handleSubmit}>
+          <div className="input-container">
+            <input
+              type="text"
+              value={username}
+              onChange={(e) => setusername(e.target.value)}
+              required
+            />
+            <label>Username</label>
+          </div>
+          <div className="input-container">
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+            <label>Password</label>
+          </div>
+          <div className="button-container">
+            <button type="submit">Login</button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };

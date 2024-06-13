@@ -1,0 +1,68 @@
+/* src/styles/CreateTask.css */
+
+/* Base styles for the create task container */
+.create-task-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 20px solid black ;
+    border-radius: 20px;
+  }
+  
+  /* Styles for the create task header */
+  .create-task-header {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  /* Styles for the form inside the create task container */
+  .create-task-form {
+    display: grid;
+    gap: 10px;
+  }
+  
+  /* Styles for labels in the form */
+  label {
+    font-weight: bold;
+  }
+  
+  /* Styles for input fields in the form */
+  input,
+  textarea,
+  select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  /* Styles for the submit button */
+  button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  /* Media query for smaller screens */
+  @media screen and (max-width: 600px) {
+    .create-task-container {
+      padding: 10px;
+    }
+  
+    .create-task-header {
+      font-size: 20px;
+    }
+  
+    input,
+    textarea,
+    select {
+      padding: 6px;
+    }
+  
+    button {
+      padding: 8px 16px;
+    }
+  }

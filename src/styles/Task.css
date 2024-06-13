@@ -1,0 +1,103 @@
+/* src/styles/Task.css */
+
+/* Styles for the task container */
+.task-container {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: calc(50% - 20px); /* Initially set to 50% width minus margin */
+    max-width: 300px; /* Adjust max-width as needed */
+  }
+  
+  /* Media query for smaller screens */
+  @media screen and (max-width: 768px) {
+    .task-container {
+      width: calc(50% - 20px); /* 50% width minus margin on smaller screens */
+    }
+  }
+  
+  /* Media query for even smaller screens */
+  @media screen and (max-width: 600px) {
+    .task-container {
+      width: 100%; /* Full width on mobile screens */
+    }
+  }
+  
+  /* Styles for the task header */
+  .task-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  /* Styles for the task title */
+  .task-header h4 {
+    margin: 0;
+  }
+  
+  /* Styles for the buttons in the task header */
+  .task-header button {
+    padding: 8px 16px;
+    margin-left: 10px;
+    cursor: pointer;
+  }
+  
+  /* Styles for the task details */
+  .task-details {
+    overflow: auto;
+    margin-bottom: 10px;
+  }
+  
+  /* Styles for the task edit form */
+  .task-edit-form {
+    display: grid;
+    gap: 10px;
+  }
+  
+  /* Styles for the task log time section */
+  .task-log-time {
+    display: flex;
+    align-items: center;
+  }
+  
+  /* Styles for the task list container */
+  .task-list-container {
+    width: 100%;
+    max-width: 1200px; /* Adjust maximum width of the task list container */
+    margin: 0 auto;
+    /* background-color: black;
+    border: black solid ; */
+    padding: 20px;
+  }
+  
+  /* Styles for the task list controls */
+  .task-list-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  /* Styles for the task cards container */
+  .task-cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    /* background-color: black; */
+    border: solid black ;
+    border-color: black;
+    border-radius: 10px;
+    gap: 20px; /* Adjust gap between task cards */
+    justify-content: flex-start; /* Align cards horizontally with space between */
+  }
+  
+  /* Media query for smaller screens */
+  @media screen and (max-width: 768px) {
+    .task-cards-container {
+      justify-content: center; /* Center cards horizontally on smaller screens */
+    }
+  }
+  

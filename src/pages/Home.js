@@ -1,10 +1,13 @@
 import React from 'react';
+import Navbar from '../components/Navbar';
 
 const Home = () => {
-  return (
-    <div>
-      <h1>Welcome to the Bug Tracker</h1>
-    </div>
+    return (
+        <Navbar />
+
+    // <div>
+    //   <h1>Welcome to the Bug Tracker</h1>
+    // </div>
   );
 };
 
