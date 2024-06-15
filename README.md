@@ -1,18 +1,18 @@
 
 
 ### Main Readme
-To start the project first download the zip file from the [https://github.com/harsh-2025/fealtyx] .
-Open the folder in VS Code run the command npm install.
-It will download all the necessary modules and files locally.
-Once the files get download run the command npm start.
-It will start the project locally on web browser.
-The website has mainly 3 pages the Home page ,Login page and the Signup page.
-I have only user the Login page for user login using the predefined userid ,password from the credentials.json file that is in my project.
-After loggin in the user will get enter to the dashboard page if he enters the credentials correctly.
-After that we can create the task,can edit , and can delete the task.
+To start the project first download the zip file from the [https://github.com/harsh-2025/fealtyx].\
+Open the folder in VS Code run the command npm install.\
+It will download all the necessary modules and files locally.\
+Once the files get download run the command npm start.\
+It will start the project locally on web browser.\
+The website has mainly 3 pages the Home page ,Login page and the Signup page.\
+I have only user the Login page for user login using the predefined userid ,password from the credentials.json file that is in my project.\
+After loggin in the user will get enter to the dashboard page if he enters the credentials correctly.\
+After that we can create the task,can edit , and can delete the task.\
 
-For demo video please go through - >[https://drive.google.com/file/d/1kmwTtYLlR7kNHSA9aG94EWZbZeURo5Hg/view?usp=sharing]
-Deployed vercel link -> [https://fealtyx.vercel.app]
+For demo video please go through - >[https://drive.google.com/file/d/1kmwTtYLlR7kNHSA9aG94EWZbZeURo5Hg/view?usp=sharing]\
+Deployed vercel link -> [https://fealtyx.vercel.app]\
 
 
 
