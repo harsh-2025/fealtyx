@@ -1,130 +1,11 @@
-// // src/components/Task.js
-// import React, { useState } from 'react';
-// import { useAuth } from '../AuthContext';
-// import "../styles/Task.css"
 
-// const Task = ({ task }) => {
-//   const { updateTask, deleteTask, logTime } = useAuth();
-//   const [isEditing, setIsEditing] = useState(false);
-//   const [title, setTitle] = useState(task.title);
-//   const [description, setDescription] = useState(task.description);
-//   const [priority, setPriority] = useState(task.priority);
-//   const [status, setStatus] = useState(task.status);
-//   const [assignee, setAssignee] = useState(task.assignee);
-//   const [startDate, setStartDate] = useState(task.startDate);
-//   const [dueDate, setDueDate] = useState(task.dueDate);
-//   const [timeSpent, setTimeSpent] = useState(0);
-
-//   const handleSave = () => {
-//     updateTask({
-//       ...task,
-//       title,
-//       description,
-//       priority,
-//       status,
-//       assignee,
-//       startDate,
-//       dueDate,
-//       updatedDate: new Date().toISOString()
-//     });
-//     setIsEditing(false);
-//   };
-
-//   const handleLogTime = () => {
-//     logTime(task.id, Number(timeSpent));
-//     setTimeSpent(0);
-//   };
-
-//   return (
-//     <div className="task-container">
-//       <div className="task-header">
-//         {isEditing ? (
-//           <input 
-//             type="text" 
-//             value={title} 
-//             onChange={(e) => setTitle(e.target.value)} 
-//           />
-//         ) : (
-//           <h4>{task.title}</h4>
-//         )}
-//         <div>
-//           <button onClick={() => setIsEditing(!isEditing)}>
-//             {isEditing ? 'Cancel' : 'Edit'}
-//           </button>
-//           <button onClick={() => deleteTask(task.id)}>Delete</button>
-//         </div>
-//       </div>
-//       <div className="task-details">
-//         {isEditing ? (
-//           <div className="task-edit-form">
-//             <textarea 
-//               value={description} 
-//               onChange={(e) => setDescription(e.target.value)} 
-//             />
-//             <select value={priority} onChange={(e) => setPriority(e.target.value)}>
-//               <option value="Low">Low</option>
-//               <option value="Medium">Medium</option>
-//               <option value="High">High</option>
-//             </select>
-//             <select value={status} onChange={(e) => setStatus(e.target.value)}>
-//               <option value="To Do">To Do</option>
-//               <option value="In Progress">In Progress</option>
-//               <option value="Done">Done</option>
-//             </select>
-//             <input 
-//               type="text" 
-//               value={assignee} 
-//               onChange={(e) => setAssignee(e.target.value)} 
-//             />
-//             <input 
-//               type="date" 
-//               value={startDate} 
-//               onChange={(e) => setStartDate(e.target.value)} 
-//             />
-//             <input 
-//               type="date" 
-//               value={dueDate} 
-//               onChange={(e) => setDueDate(e.target.value)} 
-//             />
-//             <button onClick={handleSave}>Save</button>
-//           </div>
-//         ) : (
-//             <>
-//               <div className="cards">
-//                <p>{task.description}</p>
-//             <p>Priority: {task.priority}</p>
-//             <p>Status: {task.status}</p>
-//             <p>Assignee: {task.assignee}</p>
-//             <p>Start Date: {task.startDate}</p>
-//             <p>Due Date: {task.dueDate}</p>
-//                 <p>Total Time Spent: {task.totalTimeSpent} hours</p> 
-//                 </div>
-//             </>
-        
-//         )}
-//       </div>
-//       <div className="task-log-time">
-//         <input 
-//           type="number" 
-//           placeholder="Hours spent" 
-//           value={timeSpent} 
-//           onChange={(e) => setTimeSpent(e.target.value)} 
-//         />
-//         <button onClick={handleLogTime}>Log Time</button>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default Task;
-
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth } from '../AuthContext';
 import "../styles/temp.css";
+import { useNavigate } from 'react-router-dom';
 
 const Task = ({ task }) => {
-  const { updateTask, deleteTask, logTime } = useAuth();
+  const { updateTask, deleteTask, createTicket } = useAuth();
   const [isEditing, setIsEditing] = useState(false);
   const [title, setTitle] = useState(task.title);
   const [description, setDescription] = useState(task.description);
@@ -133,7 +14,40 @@ const Task = ({ task }) => {
   const [assignee, setAssignee] = useState(task.assignee);
   const [startDate, setStartDate] = useState(task.startDate);
   const [dueDate, setDueDate] = useState(task.dueDate);
-  const [timeSpent, setTimeSpent] = useState(0);
+  const [inProgressStartTime, setInProgressStartTime] = useState(null);
+  const [currentTotalTimeSpent, setCurrentTotalTimeSpent] = useState(task.totalTimeSpent);
+  const [showTicketPopup, setShowTicketPopup] = useState(false);
+  const [ticketTitle, setTicketTitle] = useState('');
+  const [ticketDescription, setTicketDescription] = useState('');
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (status === 'In Progress') {
+      setInProgressStartTime(new Date());
+    } else if (status === 'Done' && inProgressStartTime) {
+      const endTime = new Date();
+      const timeDiff = (endTime - inProgressStartTime) / 1000; // convert milliseconds to seconds
+      const updatedTotalTimeSpent = task.totalTimeSpent + timeDiff;
+      updateTask({
+        ...task,
+        totalTimeSpent: updatedTotalTimeSpent
+      });
+      setCurrentTotalTimeSpent(updatedTotalTimeSpent);
+      setInProgressStartTime(null); // reset the start time
+    }
+  }, [status]);
+
+  useEffect(() => {
+    let timer;
+    if (status === 'In Progress') {
+      timer = setInterval(() => {
+        const currentTime = new Date();
+        const timeDiff = (currentTime - inProgressStartTime) / 1000; // convert milliseconds to seconds
+        setCurrentTotalTimeSpent(task.totalTimeSpent + timeDiff);
+      }, 1000);
+    }
+
+    return () => clearInterval(timer);
+  }, [status, inProgressStartTime]);
 
   const handleSave = () => {
     updateTask({
@@ -150,9 +64,23 @@ const Task = ({ task }) => {
     setIsEditing(false);
   };
 
-  const handleLogTime = () => {
-    logTime(task.id, Number(timeSpent));
-    setTimeSpent(0);
+  const formatTimeSpent = (seconds) => {
+    const days = Math.floor(seconds / (3600 * 24));
+    const hours = Math.floor((seconds % (3600 * 24)) / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    const remainingSeconds = Math.floor(seconds % 60);
+    return `${days} days, ${hours} hours, ${minutes} minutes, ${remainingSeconds} seconds`;
+  };
+
+  const handleCreateTicket = () => {
+    createTicket(task.id, {
+      title: ticketTitle,
+      description: ticketDescription,
+      status: 'Open'
+    });
+    setShowTicketPopup(false);
+    setTicketTitle('');
+    setTicketDescription('');
   };
 
   return (
@@ -162,16 +90,18 @@ const Task = ({ task }) => {
           <input 
             type="text" 
             value={title} 
-            onChange={(e) => setTitle(e.target.value)} 
+            readOnly
           />
         ) : (
           <h4>{task.title}</h4>
         )}
         <div>
-          <button onClick={() => setIsEditing(!isEditing)}>
-            {isEditing ? 'Cancel' : 'Edit'}
-          </button>
-          <button onClick={() => deleteTask(task.id)}>Delete</button>
+        <button className="button edit-cancel" onClick={() => setIsEditing(!isEditing)}>
+        {isEditing ? 'Cancel' : 'Edit'}
+      </button>
+      <button className="button delete" onClick={() => deleteTask(task.id)}>
+        Delete
+      </button>
         </div>
       </div>
       <div className="task-details">
@@ -181,12 +111,12 @@ const Task = ({ task }) => {
               value={description} 
               onChange={(e) => setDescription(e.target.value)} 
             />
-            <select value={priority} onChange={(e) => setPriority(e.target.value)}>
+            <select value={priority} onChange={(e)=>setPriority(e.target.value)}>
               <option value="Low">Low</option>
               <option value="Medium">Medium</option>
               <option value="High">High</option>
             </select>
-            <select value={status} onChange={(e) => setStatus(e.target.value)}>
+            <select value={status} onChange={(e)=>setStatus(e.target.value)}>
               <option value="To Do">To Do</option>
               <option value="In Progress">In Progress</option>
               <option value="Done">Done</option>
@@ -199,7 +129,7 @@ const Task = ({ task }) => {
             <input 
               type="date" 
               value={startDate} 
-              onChange={(e) => setStartDate(e.target.value)} 
+              onChange={(e)=>setStartDate(e.target.value)} 
             />
             <input 
               type="date" 
@@ -239,7 +169,7 @@ const Task = ({ task }) => {
                   </tr>
                   <tr>
                     <td>Total Time Spent</td>
-                    <td>{task.totalTimeSpent} hours</td>
+                    <td>{formatTimeSpent(currentTotalTimeSpent)}</td>
                   </tr>
                 </tbody>
               </table>
@@ -247,15 +177,29 @@ const Task = ({ task }) => {
           </>
         )}
       </div>
-      <div className="task-log-time">
-        <input 
-          type="number" 
-          placeholder="Hours spent" 
-          value={timeSpent} 
-          onChange={(e) => setTimeSpent(e.target.value)} 
-        />
-        <button onClick={handleLogTime}>Log Time</button>
+      <div className="task-actions">
+      <button className="button primary" onClick={() => setShowTicketPopup(true)}>Mark Ticket</button>
+      <button className="button secondary" onClick={() => navigate(`/tasks/${task.id}/tickets`)}>View Tickets</button>
+      <button className="button danger" onClick={() => navigate(`/tasks/${task.id}/resolve`)}>Resolve Ticket</button>
       </div>
+      {showTicketPopup && (
+        <div className="ticket-popup">
+          <h3>Create Ticket</h3>
+          <input 
+            type="text" 
+            placeholder="Title" 
+            value={ticketTitle} 
+            onChange={(e) => setTicketTitle(e.target.value)} 
+          />
+          <textarea 
+            placeholder="Description" 
+            value={ticketDescription} 
+            onChange={(e) => setTicketDescription(e.target.value)} 
+          />
+          <button onClick={handleCreateTicket}>Create</button>
+          <button onClick={() => setShowTicketPopup(false)}>Cancel</button>
+        </div>
+      )}
     </div>
   );
 };

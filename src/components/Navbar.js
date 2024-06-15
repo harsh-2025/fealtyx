@@ -1,11 +1,15 @@
 // src/components/Navbar.js
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../AuthContext';
 import "../styles/Navbar.css"
 const Navbar = () => {
   const { isLoggedIn, logout } = useAuth();
-
+  const navigate = useNavigate();
+  const handleLogout=()=>{
+    logout();
+    navigate('/');
+  }
   return (
     <nav>
       <ul>
@@ -16,7 +20,10 @@ const Navbar = () => {
             <li><Link to="/signup">Sign Up</Link></li>
           </>
         ) : (
-          <li><button onClick={logout}>Logout</button></li>
+            <>
+              <li><Link to="/dashboard">Dashboard</Link> </li>
+              <li><button onClick={handleLogout}>Logout</button></li>
+            </>
         )}
       </ul>
     </nav>
