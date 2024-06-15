@@ -12,7 +12,7 @@ After loggin in the user will get enter to the dashboard page if he enters the c
 After that we can create the task,can edit , and can delete the task.\
 
 For demo video please go through - >[https://drive.google.com/file/d/1kmwTtYLlR7kNHSA9aG94EWZbZeURo5Hg/view?usp=sharing]\
-Deployed vercel link -> [https://fealtyx.vercel.app]\
+Deployed vercel link -> [https://fealtyx.vercel.app]
 
 
 
